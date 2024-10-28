@@ -15,13 +15,13 @@ type PeerAction ={
 export const peerReducer =(state:PeerState,action:PeerAction)=>{
 
     switch(action.type){
-        case "ADD_PEER":
+        case ADD_PEER:
 
         return {...state,[action.payload.peerId]:{
             stream:action.payload.stream
         }}
         
-        case "REMOVE_PEER":
+        case REMOVE_PEER:
 
         return {...state}
         default:

@@ -9,13 +9,16 @@ const roomHandler = (socket) => {
         socket.emit('room-created', { roomId });
         console.log(roomId);
     };
-    const joinRoom = ({ roomId, peerId }) => {
+    const joinedRoom = ({ roomId, peerId }) => {
         if (rooms[roomId]) {
             // if it is there in memory db, then console it
             console.log('RoomJoined', roomId, 'peer id', peerId);
             // moments new user joins add to key of room id
             rooms[roomId].push(peerId);
             socket.join(roomId); // make the user joins socket room
+            socket.on('ready', () => {
+                socket.to(roomId).emit('user-joined', { peerId });
+            });
             // below event is for logging purpose
             socket.emit('get-users', {
                 roomId,
@@ -24,6 +27,6 @@ const roomHandler = (socket) => {
         }
     };
     socket.on('create-room', createRoom);
-    socket.on('join-room', joinRoom);
+    socket.on('joined-room', joinedRoom);
 };
 exports.default = roomHandler;

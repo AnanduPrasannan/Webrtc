@@ -20,6 +20,9 @@ app.use((0, cors_1.default)());
 io.on('connection', (socket) => {
     console.log('new user connected');
     (0, roomHandler_1.default)(socket);
+    socket.on("disconnect", () => {
+        console.log("User disconnected");
+    });
 });
 server.listen(8000, () => {
     console.log("running");
